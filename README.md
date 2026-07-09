@@ -1,50 +1,37 @@
-# Welcome to your Expo app 👋
+# app de turismo(tenemos que definir un nombre)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Aplicación interactiva móvil nativa basada en geolocalización que centraliza y proporciona información histórica, cultural y turística de Nicaragua.
 
-## Get started
+---
 
-1. Install dependencies
+# Arquitectura Técnica
 
-   ```bash
-   npm install
-   ```
+El proyecto sigue una arquitectura estructurada para garantizar rendimiento y escalabilidad:
+**Frontend (Cliente):** El sistema se desarrollará bajo un enfoque móvil nativo utilizando React Native y Expo para la generación del archivo instalable (.apk).
+**Base de Datos:** Base de datos NoSQL escalable.
+**Seguridad:** Autenticación segura mediante Firebase, almacenando las contraseñas de forma encriptada.
+**Servidor:** Backend compatible con servidores Linux.
 
-2. Start the app
+---
 
-   ```bash
-   npx expo start
-   ```
+# Dependencias Principales
 
-In the output, you'll find options to open the app in a
+Las herramientas y librerías clave necesarias para cumplir con los requisitos funcionales incluyen:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- `react-native` y `expo`: Core del desarrollo.
+- `expo-location`: Porque el sistema solicitará permisos de ubicación (GPS) al dispositivo del usuario[cite: 19].
+- `react-native-maps`: Para mostrar un mapa interactivo centralizado en la ubicación actual del usuario[cite: 20].
+- `expo-av` (o similar): Ya que el sistema reproducirá contenido multimedia (imágenes y videos) dentro de la ficha de información.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+---
 
-## Get a fresh project
+# Estructura Modular
 
-When you're ready, run:
+El proyecto está organizado de forma modular para separar responsabilidades:
 
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+/src
+├── /assets # Imágenes y archivos multimedia
+├── /components # Componentes visuales
+├── /screens # Pantallas (Mapas, Perfil, Agenda de eventos)
+├── /navigation # Enrutamiento de la aplicación
+└── /services # Conexión con Firebase
