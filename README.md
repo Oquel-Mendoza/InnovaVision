@@ -19,8 +19,8 @@ El proyecto sigue una arquitectura estructurada para garantizar rendimiento y es
 Las herramientas y librerías clave necesarias para cumplir con los requisitos funcionales incluyen:
 
 - `react-native` y `expo`: Core del desarrollo.
-- `expo-location`: Porque el sistema solicitará permisos de ubicación (GPS) al dispositivo del usuario[cite: 19].
-- `react-native-maps`: Para mostrar un mapa interactivo centralizado en la ubicación actual del usuario[cite: 20].
+- `expo-location`: Porque el sistema solicitará permisos de ubicación (GPS) al dispositivo del usuario.
+- `react-native-maps`: Para mostrar un mapa interactivo centralizado en la ubicación actual del usuario.
 - `expo-av` (o similar): Ya que el sistema reproducirá contenido multimedia (imágenes y videos) dentro de la ficha de información.
 
 ---
@@ -35,3 +35,21 @@ El proyecto está organizado de forma modular para separar responsabilidades:
 ├── /screens # Pantallas (Mapas, Perfil, Agenda de eventos)
 ├── /navigation # Enrutamiento de la aplicación
 └── /services # Conexión con Firebase
+
+---
+
+# Scripts de Ejecución
+
+Instalar las dependencias del proyecto:
+
+```bash
+npm install
+```
+
+Iniciar el servidor de desarrollo de Expo:
+
+```bash
+npx expo start
+```
+
+Presiona la tecla "a" en la terminal para abrir en Android, o escanea el código QR con la app Expo Go.
