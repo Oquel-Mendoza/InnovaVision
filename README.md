@@ -53,3 +53,41 @@ npx expo start
 ```
 
 Presiona la tecla "a" en la terminal para abrir en Android, o escanea el código QR con la app Expo Go.
+
+# Ejemplos de Endpoints (API REST)
+
+A continuación se detallan ejemplos teóricos de peticiones al servidor para el consumo de datos:
+
+1. Obtener Sitios Turísticos
+   Método: GET
+   Ruta: /api/v1/lugares
+   Descripción: Retorna la lista de puntos de interés turístico. Permite filtrar por categorías como Historia, Naturaleza o Cultura.
+
+Ejemplo de Petición:
+GET /api/v1/lugares?categoria=Historia
+
+Ejemplo de Respuesta (JSON):
+{
+"status": "success",
+"data": [
+{
+"id": "tur-001",
+"nombre": "Sitio Histórico",
+"categoria": "Historia",
+"coordenadas": {"lat": 12.435, "lng": -86.878}
+}
+]
+}
+
+2. Publicar una Reseña
+   Método: POST
+   Ruta: /api/v1/resenas
+   Descripción: Permite a un usuario autenticado enviar una calificación (1 a 5 estrellas) y un comentario sobre un lugar visitado.
+
+Cuerpo de la Petición (JSON):
+{
+"usuario_id": "usr-992",
+"lugar_id": "tur-001",
+"calificacion": 5,
+"comentario": "Excelente experiencia cultural."
+}
