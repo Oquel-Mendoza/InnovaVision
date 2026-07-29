@@ -1,4 +1,4 @@
-# app de turismo(tenemos que definir un nombre)
+# app de turismo y cultura "Nica Go"
 
 Aplicación interactiva móvil nativa basada en geolocalización que centraliza y proporciona información histórica, cultural y turística de Nicaragua.
 
@@ -10,7 +10,6 @@ El proyecto sigue una arquitectura estructurada para garantizar rendimiento y es
 **Frontend (Cliente):** El sistema se desarrollará bajo un enfoque móvil nativo utilizando React Native y Expo para la generación del archivo instalable (.apk).
 **Base de Datos:** Base de datos NoSQL escalable.
 **Seguridad:** Autenticación segura mediante Firebase, almacenando las contraseñas de forma encriptada.
-**Servidor:** Backend compatible con servidores Linux.
 
 ---
 
