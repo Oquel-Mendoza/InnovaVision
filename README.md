@@ -37,6 +37,13 @@ El proyecto está organizado de forma modular para separar responsabilidades:
 
 ---
 
+Variables de Entorno
+
+Para que el proyecto funcione localmente, crea un archivo `.env` en la raíz del proyecto con tus credenciales de Firebase:
+API_KEY=tu_firebase_api_key
+AUTH_DOMAIN=tu_proyecto.firebaseapp.com
+PROJECT_ID=tu_proyecto_id
+
 # Scripts de Ejecución
 
 Instalar las dependencias del proyecto:
