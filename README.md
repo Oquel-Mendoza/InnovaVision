@@ -1,66 +1,68 @@
-# app de turismo y cultura "Nica Go"
+app de turismo y cultura "Nica Go"
 
 Aplicación interactiva móvil nativa basada en geolocalización que centraliza y proporciona información histórica, cultural y turística de Nicaragua.
 
 ---
 
-# Arquitectura Técnica
+Arquitectura Técnica
 
 El proyecto sigue una arquitectura estructurada para garantizar rendimiento y escalabilidad:
-**Frontend (Cliente):** El sistema se desarrollará bajo un enfoque móvil nativo utilizando React Native y Expo para la generación del archivo instalable (.apk).
-**Base de Datos:** Base de datos NoSQL escalable.
-**Seguridad:** Autenticación segura mediante Firebase, almacenando las contraseñas de forma encriptada.
+
+Frontend (Cliente): El sistema se desarrollará bajo un enfoque móvil nativo utilizando React Native y Expo para la generación del archivo instalable (.apk).
+
+Backend y Base de Datos: Se utilizará Supabase como plataforma backend, empleando una base de datos relacional PostgreSQL con un esquema normalizado bajo la Tercera Forma Normal (3FN).
+
+Seguridad: La autenticación de usuarios se gestionará mediante Supabase Auth, utilizando Row Level Security (RLS) para controlar el acceso a los datos y almacenamiento seguro de las credenciales.
+
+Control de Versiones: El código fuente será gestionado mediante Git y GitHub.
 
 ---
 
-# Dependencias Principales
+Dependencias Principales
 
 Las herramientas y librerías clave necesarias para cumplir con los requisitos funcionales incluyen:
 
-- `react-native` y `expo`: Core del desarrollo.
-- `expo-location`: Porque el sistema solicitará permisos de ubicación (GPS) al dispositivo del usuario.
-- `react-native-maps`: Para mostrar un mapa interactivo centralizado en la ubicación actual del usuario.
-- `expo-av` (o similar): Ya que el sistema reproducirá contenido multimedia (imágenes y videos) dentro de la ficha de información.
+- "react-native" y "expo": Core del desarrollo.
+- "expo-location": Porque el sistema solicitará permisos de ubicación (GPS) al dispositivo del usuario.
+- "react-native-maps": Para mostrar un mapa interactivo centralizado en la ubicación actual del usuario.
+- "expo-av" (o similar): Ya que el sistema reproducirá contenido multimedia (imágenes y videos) dentro de la ficha de información.
+- "@supabase/supabase-js": Para establecer la conexión con Supabase y gestionar la autenticación y operaciones con la base de datos PostgreSQL.
 
 ---
 
-# Estructura Modular
+Estructura Modular
 
 El proyecto está organizado de forma modular para separar responsabilidades:
 
 /src
 ├── /assets # Imágenes y archivos multimedia
-├── /components # Componentes visuales
+├── /components # Componentes visuales reutilizables
 ├── /screens # Pantallas (Mapas, Perfil, Agenda de eventos)
 ├── /navigation # Enrutamiento de la aplicación
-└── /services # Conexión con Firebase
+└── /services # Cliente de Supabase y peticiones a la base de datos
 
 ---
 
 Variables de Entorno
 
-Para que el proyecto funcione localmente, crea un archivo `.env` en la raíz del proyecto con tus credenciales de Firebase:
-API_KEY=tu_firebase_api_key
-AUTH_DOMAIN=tu_proyecto.firebaseapp.com
-PROJECT_ID=tu_proyecto_id
+Para que el proyecto funcione localmente, crea un archivo ".env" en la raíz del proyecto con las credenciales de tu proyecto en Supabase:
 
-# Scripts de Ejecución
+EXPO_PUBLIC_SUPABASE_URL=tu_url_de_supabase
+EXPO_PUBLIC_SUPABASE_ANON_KEY=tu_anon_key_de_supabase
+
+Scripts de Ejecución
 
 Instalar las dependencias del proyecto:
 
-```bash
 npm install
-```
 
 Iniciar el servidor de desarrollo de Expo:
 
-```bash
 npx expo start
-```
 
 Presiona la tecla "a" en la terminal para abrir en Android, o escanea el código QR con la app Expo Go.
 
-# Ejemplos de Endpoints (API REST)
+Ejemplos de Endpoints (API REST)
 
 A continuación se detallan ejemplos teóricos de peticiones al servidor para el consumo de datos:
 
