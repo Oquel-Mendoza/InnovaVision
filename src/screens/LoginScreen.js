@@ -43,12 +43,16 @@ export default function LoginScreen({ navigation }) {
     return esValido;
   };
 
-  // Función para Iniciar Sesión con validación
   const iniciarSesion = async () => {
+    // 1. Mantiene tu validación visual (borde rojo si está vacío)
     if (!validarFormulario()) {
       return;
     }
 
+    // 2. MODO PRUEBA: Te deja pasar directo sin consultar a Supabase
+    navigation.navigate("Home");
+
+    /* --- Supabase desactivado temporalmente ---
     const { data, error } = await supabase.auth.signInWithPassword({
       email: email,
       password: password,
@@ -59,6 +63,7 @@ export default function LoginScreen({ navigation }) {
     } else {
       navigation.navigate("Home");
     }
+    ------------------------------------------- */
   };
 
   const registrarUsuario = async () => {
