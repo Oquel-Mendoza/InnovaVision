@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "turismo-app",
-    "slug": "turismo-app",
+    "name": "Nica Go",
+    "slug": "nica-go",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "turismoapp",
+    "scheme": "nicago",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
