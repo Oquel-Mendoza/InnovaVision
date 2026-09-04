@@ -1,3 +1,5 @@
+# Nica Go - Desarrollado por Equipo Innovavision
+
 app de turismo y cultura "Nica Go"
 
 Aplicación interactiva móvil nativa basada en geolocalización que centraliza y proporciona información histórica, cultural y turística de Nicaragua.
