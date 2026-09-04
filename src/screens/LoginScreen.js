@@ -15,10 +15,59 @@ import { supabase } from "../services/supabase";
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
+  const validarFormulario = () => {
+    let esValido = true;
+    setEmailError("");
+    setPasswordError("");
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email) {
+      setEmailError("El correo es obligatorio");
+      esValido = false;
+    } else if (!emailRegex.test(email)) {
+      setEmailError("Ingresa un correo electrónico válido");
+      esValido = false;
+    }
+
+    if (!password) {
+      setPasswordError("La contraseña es obligatoria");
+      esValido = false;
+    } else if (password.length < 6) {
+      setPasswordError("La contraseña debe tener al menos 6 caracteres");
+      esValido = false;
+    }
+
+    return esValido;
+  };
+
+  const iniciarSesion = async () => {
+    // 1. Mantiene tu validación visual (borde rojo si está vacío)
+    if (!validarFormulario()) {
+      return;
+    }
+
+    // 2. MODO PRUEBA: Te deja pasar directo sin consultar a Supabase
+    navigation.navigate("Home");
+
+    /* --- Supabase desactivado temporalmente ---
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
+
+    if (error) {
+      Alert.alert("Error al entrar", error.message);
+    } else {
+      navigation.navigate("Home");
+    }
+    ------------------------------------------- */
+  };
 
   const registrarUsuario = async () => {
-    if (email === "" || password === "") {
-      Alert.alert("Atención", "Por favor ingresa un correo y contraseña.");
+    if (!validarFormulario()) {
       return;
     }
 
@@ -60,7 +109,9 @@ export default function LoginScreen({ navigation }) {
         <Text style={styles.subtitle}>INICIAR SESIÓN</Text>
 
         <Text style={styles.inputLabel}>Correo Electrónico</Text>
-        <View style={styles.inputWrapper}>
+        <View
+          style={[styles.inputWrapper, emailError ? styles.inputError : null]}
+        >
           <FontAwesome5
             name="envelope"
             size={18}
@@ -76,9 +127,15 @@ export default function LoginScreen({ navigation }) {
             underlineColorAndroid="transparent"
           />
         </View>
+        {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
 
         <Text style={styles.inputLabel}>Contraseña</Text>
-        <View style={styles.inputWrapper}>
+        <View
+          style={[
+            styles.inputWrapper,
+            passwordError ? styles.inputError : null,
+          ]}
+        >
           <FontAwesome5
             name="lock"
             size={18}
@@ -93,11 +150,12 @@ export default function LoginScreen({ navigation }) {
             underlineColorAndroid="transparent"
           />
         </View>
+        {passwordError ? (
+          <Text style={styles.errorText}>{passwordError}</Text>
+        ) : null}
 
-        <TouchableOpacity
-          style={styles.loginButton}
-          onPress={() => navigation.navigate("Home")}
-        >
+        {/* Ahora el botón Entrar ejecuta la función de validación y Supabase */}
+        <TouchableOpacity style={styles.loginButton} onPress={iniciarSesion}>
           <Text style={styles.loginButtonText}>Entrar</Text>
         </TouchableOpacity>
 
@@ -183,6 +241,19 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     paddingHorizontal: 20,
     marginBottom: 15,
+  },
+  inputError: {
+    borderWidth: 2,
+    borderColor: "#FF4C4C",
+  },
+  errorText: {
+    color: "#FF4C4C",
+    fontSize: 14,
+    alignSelf: "flex-start",
+    marginLeft: "10%",
+    marginBottom: 10,
+    marginTop: -10,
+    fontWeight: "bold",
   },
   icon: {
     marginRight: 10,

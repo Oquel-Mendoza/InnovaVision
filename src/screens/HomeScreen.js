@@ -1,81 +1,80 @@
 import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
-import * as Location from "expo-location";
-import { useEffect, useState } from "react";
 import {
   Image,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-import MapView, { Marker } from "react-native-maps";
-
-const destinosTuristicos = [
-  { id: "1", nombre: "Boaco", lat: 12.4722, lng: -85.6586 },
-  { id: "2", nombre: "Carazo", lat: 11.85, lng: -86.199 },
-  { id: "3", nombre: "Chinandega", lat: 12.6294, lng: -87.131 },
-  { id: "4", nombre: "Chontales", lat: 12.1063, lng: -85.3645 },
-  { id: "5", nombre: "Estelí", lat: 13.0918, lng: -86.3536 },
-  { id: "6", nombre: "Granada", lat: 11.9344, lng: -85.956 },
-  { id: "7", nombre: "Jinotega", lat: 13.0878, lng: -86.0022 },
-  { id: "8", nombre: "León", lat: 12.4378, lng: -86.878 },
-  { id: "9", nombre: "Madriz", lat: 13.4808, lng: -86.5821 },
-  { id: "10", nombre: "Managua", lat: 12.1363, lng: -86.2513 },
-  { id: "11", nombre: "Masaya", lat: 11.9744, lng: -86.0941 },
-  { id: "12", nombre: "Matagalpa", lat: 12.9256, lng: -85.9113 },
-  { id: "13", nombre: "Nueva Segovia", lat: 13.6321, lng: -86.4752 },
-  { id: "14", nombre: "Rivas", lat: 11.4371, lng: -85.8263 },
-  { id: "15", nombre: "Río San Juan", lat: 11.1236, lng: -84.7779 },
-  { id: "16", nombre: "Caribe Norte", lat: 14.0291, lng: -83.3898 },
-  { id: "17", nombre: "Caribe Sur", lat: 12.0137, lng: -83.7635 },
-];
 
 export default function HomeScreen({ navigation }) {
-  const [mapRegion, setMapRegion] = useState({
-    latitude: 12.1363,
-    longitude: -86.2513,
-    latitudeDelta: 3.0,
-    longitudeDelta: 3.0,
-  });
+  // Datos de ejemplo para maquetar la interfaz
+  const categorias = [
+    { id: "1", nombre: "Historia", icono: "landmark" },
+    { id: "2", nombre: "Naturaleza", icono: "leaf" },
+    { id: "3", nombre: "Playas", icono: "water" },
+    { id: "4", nombre: "Aventura", icono: "hiking" },
+  ];
 
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") return;
+  const destacados = [
+    {
+      id: "1",
+      nombre: "León Colonial",
+      imagen: require("../assets/Catedral.webp"),
+    },
+    {
+      id: "2",
+      nombre: "Volcán Masaya",
+      imagen: require("../assets/volcan.webp"),
+    },
+    {
+      id: "3",
+      nombre: "Isla de Ometepe",
+      imagen: require("../assets/ometepe.webp"),
+    },
+  ];
 
-      let location = await Location.getCurrentPositionAsync({});
-      setMapRegion({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-        latitudeDelta: 1.5,
-        longitudeDelta: 1.5,
-      });
-    })();
-  }, []);
+  const rutas = [
+    {
+      id: "1",
+      titulo: "Ruta de los Volcanes",
+      duracion: "2 días • 3 destinos",
+      icono: "fire",
+    },
+    {
+      id: "2",
+      titulo: "Tour del Café",
+      duracion: "1 día • Jinotega",
+      icono: "coffee",
+    },
+  ];
 
   return (
     <View style={styles.container}>
-      <MapView style={styles.map} region={mapRegion} showsUserLocation={true}>
-        {destinosTuristicos.map((destino) => (
-          <Marker
-            key={destino.id}
-            coordinate={{ latitude: destino.lat, longitude: destino.lng }}
-            onPress={() => navigation.navigate("CityDetail")}
-          >
-            {/* Contenedor sin medidas fijas para que Android no lo desaparezca */}
-            <View style={styles.customMarker}>
-              <Image
-                source={require("../assets/pin.png")}
-                style={styles.markerIcon}
-              />
-              <Text style={styles.markerText}>{destino.nombre}</Text>
-            </View>
-          </Marker>
-        ))}
-      </MapView>
+      {/* Contenido scrolleable */}
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContent}
+      >
+        {/* Cabecera con saludo y perfil */}
+        <View style={styles.header}>
+          <View>
+            <Text style={styles.greeting}>Hola, Alejandra 👋</Text>
+            <Text style={styles.subtitle}>¿Qué descubriremos hoy?</Text>
+          </View>
+          <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+            <Image
+              source={{
+                uri: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
+              }}
+              style={styles.profilePic}
+            />
+          </TouchableOpacity>
+        </View>
 
-      <View style={styles.topBar}>
+        {/* Barra de Búsqueda */}
         <View style={styles.searchBar}>
           <FontAwesome5
             name="search"
@@ -85,23 +84,70 @@ export default function HomeScreen({ navigation }) {
           />
           <TextInput
             placeholder="Cual es tu proximo destino?"
-            placeholderTextColor="#152145"
+            placeholderTextColor="#64748B"
             style={[styles.searchInput, { outlineStyle: "none" }]}
             underlineColorAndroid="transparent"
           />
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-          <Image
-            source={{
-              uri: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
-            }}
-            style={styles.profilePic}
-          />
-        </TouchableOpacity>
-      </View>
 
+        {/* Categorías Rápidas */}
+        <Text style={styles.sectionTitle}>Explorar por</Text>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.horizontalScroll}
+        >
+          {categorias.map((cat) => (
+            <TouchableOpacity key={cat.id} style={styles.categoryBadge}>
+              <FontAwesome5 name={cat.icono} size={16} color="#D49A36" />
+              <Text style={styles.categoryText}>{cat.nombre}</Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+
+        {/* Destinos Destacados */}
+        <Text style={styles.sectionTitle}>Destinos Destacados</Text>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.horizontalScroll}
+        >
+          {destacados.map((dest) => (
+            <TouchableOpacity
+              key={dest.id}
+              style={styles.destacadoCard}
+              onPress={() => navigation.navigate("CityDetail")}
+            >
+              <Image source={dest.imagen} style={styles.destacadoImg} />
+              <View style={styles.destacadoOverlay}>
+                <Text style={styles.destacadoTitle}>{dest.nombre}</Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+
+        {/* Rutas Sugeridas */}
+        <Text style={styles.sectionTitle}>Rutas Sugeridas</Text>
+        {rutas.map((ruta) => (
+          <TouchableOpacity key={ruta.id} style={styles.rutaCard}>
+            <View style={styles.rutaIconContainer}>
+              <FontAwesome5 name={ruta.icono} size={20} color="#FFF" />
+            </View>
+            <View style={styles.rutaInfo}>
+              <Text style={styles.rutaTitle}>{ruta.titulo}</Text>
+              <Text style={styles.rutaSubtitle}>{ruta.duracion}</Text>
+            </View>
+            <FontAwesome5 name="chevron-right" size={16} color="#D49A36" />
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+
+      {/* Menú inferior: Inicio activo */}
       <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem}>
+        <TouchableOpacity
+          style={styles.navItem}
+          onPress={() => navigation.navigate("MapRoute")}
+        >
           <FontAwesome5 name="map-marker-alt" size={24} color="#999" />
           <Text style={styles.navText}>Mapa</Text>
         </TouchableOpacity>
@@ -111,12 +157,18 @@ export default function HomeScreen({ navigation }) {
           <Text style={[styles.navText, styles.navTextActive]}>Inicio</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.navItem}>
+        <TouchableOpacity
+          style={styles.navItem}
+          onPress={() => navigation.navigate("Favorites")}
+        >
           <MaterialIcons name="favorite" size={26} color="#999" />
           <Text style={styles.navText}>Favoritos</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.navItem}>
+        <TouchableOpacity
+          style={styles.navItem}
+          onPress={() => navigation.navigate("Events")}
+        >
           <FontAwesome5 name="calendar-alt" size={24} color="#999" />
           <Text style={styles.navText}>Eventos</Text>
         </TouchableOpacity>
@@ -126,61 +178,120 @@ export default function HomeScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  map: { width: "100%", height: "100%" },
-  customMarker: {
-    alignItems: "center",
-    justifyContent: "center",
-    // Eliminados width y height fijos
-  },
-  markerIcon: {
-    width: 35,
-    height: 45,
-    resizeMode: "contain", // Asegura que la imagen mantenga sus proporciones
-  },
-  markerText: {
-    color: "#111A3A",
-    fontWeight: "bold",
-    fontSize: 11,
-    backgroundColor: "rgba(255, 255, 255, 0.8)", // Fondo sólido para asegurar legibilidad
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 4,
-    marginTop: 2,
-  },
-  topBar: {
-    position: "absolute",
-    top: 50,
-    left: 20,
-    right: 20,
+  container: { flex: 1, backgroundColor: "#F8F9FA" },
+  scrollContent: { paddingTop: 60, paddingBottom: 100 }, // El paddingBottom evita que el menú tape el contenido
+  header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    paddingHorizontal: 25,
+    marginBottom: 25,
+  },
+  greeting: { fontSize: 24, fontWeight: "bold", color: "#111A3A" },
+  subtitle: { fontSize: 16, color: "#64748B", marginTop: 4 },
+  profilePic: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    borderWidth: 2,
+    borderColor: "#D49A36",
   },
   searchBar: {
-    flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "rgba(255,255,255,0.9)",
+    backgroundColor: "#FFF",
+    marginHorizontal: 25,
     borderRadius: 25,
-    paddingHorizontal: 15,
-    height: 45,
-    marginRight: 15,
-    elevation: 5,
+    paddingHorizontal: 20,
+    height: 50,
+    elevation: 3,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    marginBottom: 30,
   },
   searchIcon: { marginRight: 10 },
-  searchInput: { flex: 1, fontSize: 14, color: "#152145", fontWeight: "600" },
-  profilePic: {
-    width: 45,
-    height: 45,
-    borderRadius: 22.5,
-    borderWidth: 2,
-    borderColor: "#FFF",
+  searchInput: { flex: 1, fontSize: 16, color: "#111A3A" },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#111A3A",
+    paddingHorizontal: 25,
+    marginBottom: 15,
   },
+  horizontalScroll: { paddingLeft: 25, paddingBottom: 25 },
+  categoryBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#FFF",
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 25,
+    marginRight: 15,
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+  },
+  categoryText: {
+    marginLeft: 10,
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#111A3A",
+  },
+  destacadoCard: {
+    width: 160,
+    height: 220,
+    borderRadius: 20,
+    marginRight: 20,
+    overflow: "hidden",
+    position: "relative",
+  },
+  destacadoImg: { width: "100%", height: "100%", resizeMode: "cover" },
+  destacadoOverlay: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: "40%",
+    backgroundColor: "rgba(17, 26, 58, 0.6)",
+    justifyContent: "flex-end",
+    padding: 15,
+  },
+  destacadoTitle: { color: "#FFF", fontSize: 16, fontWeight: "bold" },
+  rutaCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#FFF",
+    marginHorizontal: 25,
+    marginBottom: 15,
+    padding: 15,
+    borderRadius: 20,
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+  },
+  rutaIconContainer: {
+    width: 50,
+    height: 50,
+    borderRadius: 15,
+    backgroundColor: "#111A3A",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 15,
+  },
+  rutaInfo: { flex: 1 },
+  rutaTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#111A3A",
+    marginBottom: 4,
+  },
+  rutaSubtitle: { fontSize: 13, color: "#64748B", fontWeight: "600" },
   bottomNav: {
     position: "absolute",
     bottom: 0,
