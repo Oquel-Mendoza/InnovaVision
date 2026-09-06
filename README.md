@@ -1,62 +1,96 @@
-# Nica Go - Desarrollado por Equipo Innovavision
-
-app de turismo y cultura "Nica Go"
+# Nica Go - Desarrollado por Equipo InnovaVision
 
 Aplicación interactiva móvil nativa basada en geolocalización que centraliza y proporciona información histórica, cultural y turística de Nicaragua.
 
-Arquitectura Técnica
+## Arquitectura Técnica
 
 El proyecto sigue una arquitectura estructurada para garantizar rendimiento y escalabilidad:
 
-Frontend (Cliente): El sistema se desarrollará bajo un enfoque móvil nativo utilizando React Native y Expo para la generación del archivo instalable (.apk).
+- **Frontend (Cliente):** Desarrollo bajo un enfoque móvil nativo utilizando React Native y Expo para la generación del archivo instalable (.apk).
+- **Backend y Base de Datos:** Plataforma backend en Supabase, empleando una base de datos relacional PostgreSQL con un esquema normalizado bajo la Tercera Forma Normal (3FN).
+- **Seguridad:** Autenticación gestionada mediante Supabase Auth, utilizando Row Level Security (RLS) para el control de acceso y almacenamiento seguro de credenciales.
+- **Control de Versiones:** Trazabilidad y gestión del código fuente mediante Git y GitHub.
 
-Backend y Base de Datos: Se utilizará Supabase como plataforma backend, empleando una base de datos relacional PostgreSQL con un esquema normalizado bajo la Tercera Forma Normal (3FN).
+## Dependencias Principales
 
-Seguridad: La autenticación de usuarios se gestionará mediante Supabase Auth, utilizando Row Level Security (RLS) para controlar el acceso a los datos y almacenamiento seguro de las credenciales.
+Las herramientas y librerías clave integradas para el cumplimiento de los requisitos funcionales son:
 
-Control de Versiones: El código fuente será gestionado mediante Git y GitHub.
+- `react-native` y `expo`: Core del desarrollo de la interfaz.
+- `expo-location`: Gestión de permisos y captura de la ubicación (GPS) del dispositivo.
+- `react-native-maps`: Renderizado del mapa interactivo centralizado en las coordenadas del usuario.
+- `expo-av`: Reproducción de contenido multimedia dentro de las fichas de información turística.
+- `@supabase/supabase-js`: Cliente para la conexión, autenticación y operaciones CRUD con PostgreSQL.
 
-Dependencias Principales
+## Estructura Modular
 
-Las herramientas y librerías clave necesarias para cumplir con los requisitos funcionales incluyen:
+El proyecto está organizado para separar responsabilidades lógicas y visuales:
 
-"react-native" y "expo": Core del desarrollo.
-"expo-location": Porque el sistema solicitará permisos de ubicación (GPS) al dispositivo del usuario.
-"react-native-maps": Para mostrar un mapa interactivo centralizado en la ubicación actual del usuario.
-"expo-av" (o similar): Ya que el sistema reproducirá contenido multimedia (imágenes y videos) dentro de la ficha de información.
-"@supabase/supabase-js": Para establecer la conexión con Supabase y gestionar la autenticación y operaciones con la base de datos PostgreSQL.
-Estructura Modular
+```text
+/src
+ ├── /assets      # Imágenes y archivos multimedia
+ ├── /components  # Componentes visuales reutilizables
+ ├── /screens     # Vistas principales (Mapas, Perfil, Eventos, Home)
+ ├── /navigation  # Rutas y stack de navegación de la aplicación
+ └── /services    # Cliente de Supabase y peticiones a la base de datos
+```
 
-El proyecto está organizado de forma modular para separar responsabilidades:
+## Configuración de Entorno
 
-/src ├── /assets # Imágenes y archivos multimedia ├── /components # Componentes visuales reutilizables ├── /screens # Pantallas (Mapas, Perfil, Agenda de eventos) ├── /navigation # Enrutamiento de la aplicación └── /services # Cliente de Supabase y peticiones a la base de datos
+El sistema requiere la configuración de variables de entorno para establecer la conexión segura con la base de datos. Genere un archivo `.env` en el directorio raíz utilizando las credenciales asignadas al proyecto:
 
-Variables de Entorno
+```env
+EXPO_PUBLIC_SUPABASE_URL=[URL_DEL_SERVIDOR]
+EXPO_PUBLIC_SUPABASE_ANON_KEY=[CLAVE_DE_ACCESO]
+```
 
-Para que el proyecto funcione localmente, crea un archivo ".env" en la raíz del proyecto con las credenciales de tu proyecto en Supabase:
+## Despliegue de Desarrollo
 
-EXPO_PUBLIC_SUPABASE_URL=tu_url_de_supabase EXPO_PUBLIC_SUPABASE_ANON_KEY=tu_anon_key_de_supabase
+Inicialice las dependencias y el servidor local ejecutando los siguientes comandos en la terminal:
 
-Scripts de Ejecución
-
-Instalar las dependencias del proyecto:
-
+```bash
 npm install
-
-Iniciar el servidor de desarrollo de Expo:
-
 npx expo start
+```
 
-Presiona la tecla "a" en la terminal para abrir en Android, o escanea el código QR con la app Expo Go.
+_Nota: Utilice los atajos de teclado provistos por la terminal de Expo (ej. 'a' para emulador Android) o el cliente móvil Expo Go para la visualización del prototipo._
 
-Ejemplos de Endpoints (API REST)
+## Especificaciones de la API REST
 
-A continuación se detallan ejemplos teóricos de peticiones al servidor para el consumo de datos:
+La transferencia de datos entre el cliente y el servidor backend se estructura mediante los siguientes servicios principales:
 
-Obtener Sitios Turísticos Método: GET Ruta: /api/v1/lugares Descripción: Retorna la lista de puntos de interés turístico. Permite filtrar por categorías como Historia, Naturaleza o Cultura.
-Ejemplo de Petición: GET /api/v1/lugares?categoria=Historia
+**1. Obtener Sitios Turísticos**
 
-Ejemplo de Respuesta (JSON): { "status": "success", "data": [ { "id": "tur-001", "nombre": "Sitio Histórico", "categoria": "Historia", "coordenadas": {"lat": 12.435, "lng": -86.878} } ] }
+- **Método:** `GET`
+- **Ruta:** `/api/v1/lugares`
+- **Descripción:** Retorna la lista de puntos de interés turístico. Permite parámetros de filtrado por categoría (Historia, Naturaleza, Cultura).
+- **Ejemplo de Respuesta:**
 
-Publicar una Reseña Método: POST Ruta: /api/v1/resenas Descripción: Permite a un usuario autenticado enviar una calificación (1 a 5 estrellas) y un comentario sobre un lugar visitado.
-Cuerpo de la Petición (JSON): { "usuario_id": "usr-992", "lugar_id": "tur-001", "calificacion": 5, "comentario": "Excelente experiencia cultural." }
+```json
+{
+  "status": "success",
+  "data": [
+    {
+      "id": "tur-001",
+      "nombre": "Sitio Histórico",
+      "categoria": "Historia",
+      "coordenadas": { "lat": 12.435, "lng": -86.878 }
+    }
+  ]
+}
+```
+
+**2. Publicar una Reseña**
+
+- **Método:** `POST`
+- **Ruta:** `/api/v1/resenas`
+- **Descripción:** Permite a un usuario autenticado enviar una calificación y comentario sobre un lugar visitado.
+- **Cuerpo de la Petición:**
+
+```json
+{
+  "usuario_id": "usr-992",
+  "lugar_id": "tur-001",
+  "calificacion": 5,
+  "comentario": "Excelente experiencia cultural."
+}
+```
